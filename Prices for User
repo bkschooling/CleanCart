@@ -1,0 +1,22 @@
+def find_best_price(product_name, stores):
+    best_price = None
+    best_product = None
+
+    for store in stores:
+        product = store.get_product(product_name)
+        if product and (best_price is None or product.price < best_price):
+            best_price = product.price
+            best_product = product
+
+    return best_product
+
+
+product_name = input("Enter product name (e.g., Pasta, Sauce): ")
+
+# Find Best Price
+best_product = find_best_price(product_name, [store1, store2, store3])
+
+if best_product:
+    print(f"The best price for {product_name} is {best_product}!")
+else:
+    print(f"{product_name} is not available in any store.")
