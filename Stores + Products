@@ -1,0 +1,21 @@
+store1 = Store("Store A", "New York")
+store2 = Store("Store B", "Los Angeles")
+store3 = Store("Store C", "Chicago")
+
+product1 = Product("Pasta", 2.99, store1)
+product2 = Product("Pasta", 3.49, store2)
+product3 = Product("Pasta", 2.49, store3)
+
+product4 = Product("Sauce", 1.99, store1)
+product5 = Product("Sauce", 2.49, store2)
+product6 = Product("Sauce", 1.79, store3)
+
+store1.add_product(product1)
+store1.add_product(product4)
+
+store2.add_product(product2)
+store2.add_product(product5)
+
+store3.add_product(product3)
+store3.add_product(product6)
+
