@@ -1,24 +1,66 @@
 class Product:
-    def __init__(self, name, price, store):
+    def __init__(self, name, price, store, availability=True):
         self.name = name
         self.price = price
         self.store = store
+        self.availability = availability
 
     def __repr__(self):
-        return f"{self.name} (${self.price}) at {self.store}"
+        return f"{self.name} (${self.price}) at {self.store.name} - {'Available' if self.availability else 'Out of stock'}"
 
 
 class Store:
     def __init__(self, name, location):
         self.name = name
         self.location = location
-        self.products = []
+        self.products = {}
 
     def add_product(self, product):
-        self.products.append(product)
+        if product.name not in self.products:
+            self.products[product.name] = []
+        self.products[product.name].append(product)
 
     def get_product(self, product_name):
-        for product in self.products:
-            if product.name == product_name:
-                return product
-        return None
+        return self.products.get(product_name, [])
+
+    def __repr__(self):
+        return f"{self.name} in {self.location}"
+
+
+class Inventory:
+    def __init__(self):
+        self.stores = {}
+
+    def add_store(self, store):
+        self.stores[store.name] = store
+
+    def get_store(self, store_name):
+        return self.stores.get(store_name)
+
+    def get_best_price(self, product_name, location=None):
+        best_price = None
+        best_product = None
+        for store in self.stores.values():
+            if location and store.location != location:
+                continue  # Skip stores that don't match the location
+            products = store.get_product(product_name)
+            for product in products:
+                if product.availability and (best_price is None or product.price < best_price):
+                    best_price = product.price
+                    best_product = product
+        return best_product
+
+
+def add_multiple_stores(store_data):
+    stores = []
+    for store_name, location in store_data:
+        store = Store(store_name, location)
+        stores.append(store)
+    return stores
+
+
+def add_products_to_stores(stores, products_data):
+    for store in stores:
+        for product_name, price, availability in products_data:
+            product = Product(product_name, price, store, availability)
+            store.add_product(product)
