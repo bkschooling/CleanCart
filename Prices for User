@@ -1,22 +1,16 @@
-def find_best_price(product_name, stores):
-    best_price = None
-    best_product = None
+stores = add_multiple_stores(store_data)
+inventory = Inventory()
+for store in stores:
+    inventory.add_store(store)
 
-    for store in stores:
-        product = store.get_product(product_name)
-        if product and (best_price is None or product.price < best_price):
-            best_price = product.price
-            best_product = product
+add_products_to_stores(stores, product_data)
 
-    return best_product
+# Automatically show the best prices for some products
+products_to_check = ["Pasta", "Sauce", "Rice", "Cheese", "Eggs", "Flour"]
 
-
-product_name = input("Enter product name (e.g., Pasta, Sauce): ")
-
-# Find Best Price
-best_product = find_best_price(product_name, [store1, store2, store3])
-
-if best_product:
-    print(f"The best price for {product_name} is {best_product}!")
-else:
-    print(f"{product_name} is not available in any store.")
+for product_name in products_to_check:
+    best_product = inventory.get_best_price(product_name)
+    if best_product:
+        print(f"The best price for {product_name} is {best_product}!")
+    else:
+        print(f"{product_name} is not available in any store.")
