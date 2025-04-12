@@ -1,3 +1,5 @@
+import random
+
 class Product:
     def __init__(self, name, price, store, availability=True):
         self.name = name
