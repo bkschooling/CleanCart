@@ -1,21 +1,68 @@
-store1 = Store("Store A", "New York")
-store2 = Store("Store B", "Los Angeles")
-store3 = Store("Store C", "Chicago")
+store_data = [
+    ("Store A", "New York"),
+    ("Store B", "Los Angeles"),
+    ("Store C", "Chicago"),
+    ("Store D", "San Francisco"),
+    ("Store E", "Miami"),
+    ("Store F", "New York"),
+    ("Store G", "Los Angeles"),
+    ("Store H", "San Francisco"),
+    ("Store I", "Chicago"),
+    ("Store J", "Miami"),
+    ("Store K", "Los Angeles"),
+    ("Store L", "New York"),
+    ("Store M", "San Francisco"),
+    ("Store N", "Chicago"),
+    ("Store O", "Miami"),
+    ("Store P", "New York"),
+    ("Store Q", "Los Angeles"),
+    ("Store R", "San Francisco"),
+    ("Store S", "Miami"),
+    ("Store T", "Chicago"),
+    ("Store U", "Los Angeles"),
+    ("Store V", "New York"),
+    ("Store W", "San Francisco"),
+    ("Store X", "Miami"),
+    ("Store Y", "Chicago"),
+    ("Store Z", "Los Angeles"),
+]
 
-product1 = Product("Pasta", 2.99, store1)
-product2 = Product("Pasta", 3.49, store2)
-product3 = Product("Pasta", 2.49, store3)
-
-product4 = Product("Sauce", 1.99, store1)
-product5 = Product("Sauce", 2.49, store2)
-product6 = Product("Sauce", 1.79, store3)
-
-store1.add_product(product1)
-store1.add_product(product4)
-
-store2.add_product(product2)
-store2.add_product(product5)
-
-store3.add_product(product3)
-store3.add_product(product6)
-
+# Expanded product data with availability and a mix of food items and ingredients
+product_data = [
+    ("Pasta", 2.99, True),
+    ("Pasta", 3.49, True),
+    ("Pasta", 2.49, False),
+    ("Pasta", 2.79, True),
+    ("Sauce", 1.99, True),
+    ("Sauce", 2.49, True),
+    ("Sauce", 1.79, True),
+    ("Sauce", 2.89, False),
+    ("Bread", 1.29, True),
+    ("Bread", 1.49, True),
+    ("Bread", 1.19, True),
+    ("Bread", 1.69, False),
+    ("Rice", 3.59, True),
+    ("Rice", 3.99, True),
+    ("Rice", 3.49, True),
+    ("Rice", 3.79, False),
+    ("Tomato", 1.29, True),
+    ("Tomato", 1.49, True),
+    ("Tomato", 1.69, True),
+    ("Tomato", 1.89, False),
+    ("Cheese", 4.99, True),
+    ("Cheese", 5.49, True),
+    ("Cheese", 4.79, False),
+    ("Cheese", 5.19, True),
+    ("Milk", 2.59, True),
+    ("Milk", 2.79, True),
+    ("Milk", 2.99, False),
+    ("Eggs", 3.19, True),
+    ("Eggs", 3.59, True),
+    ("Eggs", 2.99, False),
+    ("Flour", 1.99, True),
+    ("Flour", 2.49, True),
+    ("Flour", 1.89, True),
+    ("Sugar", 2.69, True),
+    ("Sugar", 2.99, True),
+    ("Sugar", 2.39, True),
+]
