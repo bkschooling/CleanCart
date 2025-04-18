@@ -81,10 +81,3 @@ product_data = [
     ("Frozen Pizza", 5.99, True),
     ("Frozen Meatballs", 6.49, True)
 ]
-
-stores = add_multiple_stores(store_data)
-inventory = Inventory()
-for store in stores:
-    inventory.add_store(store)
-
-add_products_to_stores(stores, product_data)
