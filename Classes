@@ -52,14 +52,49 @@ class Inventory:
                     best_product = product
         return best_product
 
+    def filter_products(self, price_range=None, availability=None, location=None):
+        filtered_products = []
+        for store in self.stores.values():
+            if location and store.location != location:
+                continue
+            for product_list in store.products.values():
+                for product in product_list:
+                    if (availability is None or product.availability == availability) and \
+                       (price_range is None or price_range[0] <= product.price <= price_range[1]):
+                        filtered_products.append(product)
+        return filtered_products
 
+    def sort_products(self, key='price', reverse=False):
+        all_products = []
+        for store in self.stores.values():
+            for product_list in store.products.values():
+                all_products.extend(product_list)
+        return sorted(all_products, key=lambda p: getattr(p, key), reverse=reverse)
+
+# User authentication system (simple for now)
+class User:
+    def __init__(self, username, password):
+        self.username = username
+        self.password = password
+        self.saved_preferences = {
+            'stores': [],
+            'products': []
+        }
+
+    def add_preference(self, category, preference):
+        if category in self.saved_preferences:
+            self.saved_preferences[category].append(preference)
+
+    def __repr__(self):
+        return f"User {self.username}, Preferences: {self.saved_preferences}"
+
+# Create new stores and products dynamically
 def add_multiple_stores(store_data):
     stores = []
     for store_name, location in store_data:
         store = Store(store_name, location)
         stores.append(store)
     return stores
-
 
 def add_products_to_stores(stores, products_data):
     for store in stores:
