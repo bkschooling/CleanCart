@@ -1,115 +1,57 @@
 import random
 
 class Product:
-    def __init__(self, name, price, store, availability=True):
+    def __init__(self, name, price, availability=True):
         self.name = name
         self.price = price
-        self.store = store
         self.availability = availability
 
     def __repr__(self):
-        return f"{self.name} (${self.price}) at {self.store.name} - {'Available' if self.availability else 'Out of stock'}"
-
+        return f"{self.name} (${self.price}) - {'Available' if self.availability else 'Out of Stock'}"
 
 class Store:
     def __init__(self, name, location):
         self.name = name
         self.location = location
-        self.products = {}
+        self.inventory = []
 
     def add_product(self, product):
-        if product.name not in self.products:
-            self.products[product.name] = []
-        self.products[product.name].append(product)
+        self.inventory.append(product)
 
-    def get_product(self, product_name):
-        return self.products.get(product_name, [])
+    def get_product_info(self, product_name):
+        return [p for p in self.inventory if p.name.lower() == product_name.lower()]
 
     def __repr__(self):
         return f"{self.name} in {self.location}"
 
-
-class Inventory:
-    def __init__(self):
-        self.stores = {}
-
-    def add_store(self, store):
-        self.stores[store.name] = store
-
-    def get_store(self, store_name):
-        return self.stores.get(store_name)
-
-    def get_best_price(self, product_name, location=None):
-        best_price = None
-        best_product = None
-        for store in self.stores.values():
-            if location and store.location != location:
-                continue  # Skip stores that don't match the location
-            products = store.get_product(product_name)
-            for product in products:
-                if product.availability and (best_price is None or product.price < best_price):
-                    best_price = product.price
-                    best_product = product
-        return best_product
-
-    def filter_products(self, price_range=None, availability=None, location=None):
-        filtered_products = []
-        for store in self.stores.values():
-            if location and store.location != location:
-                continue
-            for product_list in store.products.values():
-                for product in product_list:
-                    if (availability is None or product.availability == availability) and \
-                       (price_range is None or price_range[0] <= product.price <= price_range[1]):
-                        filtered_products.append(product)
-        return filtered_products
-
-    def sort_products(self, key='price', reverse=False):
-        all_products = []
-        for store in self.stores.values():
-            for product_list in store.products.values():
-                all_products.extend(product_list)
-        return sorted(all_products, key=lambda p: getattr(p, key), reverse=reverse)
-
-def print_product_availability(inventory, products):
-    for product_name in products:
-        available_stores = []
-        for store in inventory.stores.values():
-            products_in_store = store.get_product(product_name)
-            for product in products_in_store:
-                if product.availability:
-                    available_stores.append(store.name)
-                    break  # No need to check other products for this store
-        if available_stores:
-            print(f"{product_name}: Available in {', '.join(available_stores)}")
-        else:
-            print(f"{product_name}: Not available in any store")
-
 class User:
-    def __init__(self, username, password):
-        self.username = username
-        self.password = password
-        self.saved_preferences = {
-            'stores': [],
-            'products': []
-        }
+    def __init__(self, name, home_city):
+        self.name = name
+        self.home_city = home_city
+        self.product_preferences = []
 
-    def add_preference(self, category, preference):
-        if category in self.saved_preferences:
-            self.saved_preferences[category].append(preference)
+    def add_product_preference(self, product_name):
+        self.product_preferences.append(product_name)
 
     def __repr__(self):
-        return f"User {self.username}, Preferences: {self.saved_preferences}"
+        return f"{self.name} from {self.home_city}"
 
 def add_multiple_stores(store_data):
-    stores = []
-    for store_name, location in store_data:
-        store = Store(store_name, location)
-        stores.append(store)
-    return stores
+    return [Store(name, location) for name, location in store_data]
 
-def add_products_to_stores(stores, products_data):
+def add_products_to_stores(stores, product_data):
+    for i, (name, price, available) in enumerate(product_data):
+        product = Product(name, price, available)
+        store_index = i % len(stores)
+        stores[store_index].add_product(product)
+
+def find_best_product_option(stores, product_name, home_city=None):
+    best_option = None
     for store in stores:
-        for product_name, price, availability in products_data:
-            product = Product(product_name, price, store, availability)
-            store.add_product(product)
+        if home_city and store.location != home_city:
+            continue
+        for product in store.get_product_info(product_name):
+            if product.availability:
+                if not best_option or product.price < best_option[1].price:
+                    best_option = (store, product)
+    return best_option
