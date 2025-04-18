@@ -5,12 +5,26 @@ for store in stores:
 
 add_products_to_stores(stores, product_data)
 
-# Automatically show the best prices for some products
-products_to_check = ["Pasta", "Sauce", "Rice", "Cheese", "Eggs", "Flour"]
 
+filtered_products = inventory.filter_products(price_range=(1.50, 3.00), availability=True)
+print("\nFiltered Products (Price range 1.50 to 3.00 and available):")
+for product in filtered_products:
+    print(product)
+
+sorted_products = inventory.sort_products(key='price', reverse=False)
+print("\nSorted Products by Price (ascending):")
+for product in sorted_products:
+    print(product)
+
+user1 = User(username="john_doe", password="securepassword")
+user1.add_preference('stores', "Store A")
+user1.add_preference('products', "Pasta")
+print(f"\n{user1}")
+
+products_to_check = ["Pasta", "Sauce", "Rice", "Cheese", "Eggs", "Flour"]
 for product_name in products_to_check:
     best_product = inventory.get_best_price(product_name)
     if best_product:
-        print(f"The best price for {product_name} is {best_product}!")
+        print(f"\nThe best price for {product_name} is {best_product}!")
     else:
         print(f"{product_name} is not available in any store.")
