@@ -6,6 +6,7 @@ for store in stores:
 add_products_to_stores(stores, product_data)
 
 
+# Filter products by price range and availability
 filtered_products = inventory.filter_products(price_range=(1.50, 3.00), availability=True)
 print("\nFiltered Products (Price range 1.50 to 3.00 and available):")
 for product in filtered_products:
@@ -28,3 +29,5 @@ for product_name in products_to_check:
         print(f"\nThe best price for {product_name} is {best_product}!")
     else:
         print(f"{product_name} is not available in any store.")
+
+print_product_availability(inventory, products_to_check)
