@@ -71,7 +71,6 @@ class Inventory:
                 all_products.extend(product_list)
         return sorted(all_products, key=lambda p: getattr(p, key), reverse=reverse)
 
-# User authentication system (simple for now)
 class User:
     def __init__(self, username, password):
         self.username = username
@@ -88,7 +87,6 @@ class User:
     def __repr__(self):
         return f"User {self.username}, Preferences: {self.saved_preferences}"
 
-# Create new stores and products dynamically
 def add_multiple_stores(store_data):
     stores = []
     for store_name, location in store_data:
