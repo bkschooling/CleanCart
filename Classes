@@ -71,6 +71,20 @@ class Inventory:
                 all_products.extend(product_list)
         return sorted(all_products, key=lambda p: getattr(p, key), reverse=reverse)
 
+def print_product_availability(inventory, products):
+    for product_name in products:
+        available_stores = []
+        for store in inventory.stores.values():
+            products_in_store = store.get_product(product_name)
+            for product in products_in_store:
+                if product.availability:
+                    available_stores.append(store.name)
+                    break  # No need to check other products for this store
+        if available_stores:
+            print(f"{product_name}: Available in {', '.join(available_stores)}")
+        else:
+            print(f"{product_name}: Not available in any store")
+
 class User:
     def __init__(self, username, password):
         self.username = username
