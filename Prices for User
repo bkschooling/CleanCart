@@ -1,33 +1,20 @@
-stores = add_multiple_stores(store_data)
-inventory = Inventory()
-for store in stores:
-    inventory.add_store(store)
+product_data = []
+for product_name, prices in product_prices.items():
+    for price in prices:
+        available = random.choice([True, True, True, False])  # mostly available
+        product_data.append((product_name, price, available))
 
+stores = add_multiple_stores(store_data)
 add_products_to_stores(stores, product_data)
 
+user = User("Jordan", "Chicago")
+user.add_product_preference("Pasta")
+user.add_product_preference("Bread")
 
-# Filter products by price range and availability
-filtered_products = inventory.filter_products(price_range=(1.50, 3.00), availability=True)
-print("\nFiltered Products (Price range 1.50 to 3.00 and available):")
-for product in filtered_products:
-    print(product)
-
-sorted_products = inventory.sort_products(key='price', reverse=False)
-print("\nSorted Products by Price (ascending):")
-for product in sorted_products:
-    print(product)
-
-user1 = User(username="john_doe", password="securepassword")
-user1.add_preference('stores', "Store A")
-user1.add_preference('products', "Pasta")
-print(f"\n{user1}")
-
-products_to_check = ["Pasta", "Sauce", "Rice", "Cheese", "Eggs", "Flour"]
-for product_name in products_to_check:
-    best_product = inventory.get_best_price(product_name)
-    if best_product:
-        print(f"\nThe best price for {product_name} is {best_product}!")
+for product in user.product_preferences:
+    best = find_best_product_option(stores, product, user.home_city)
+    if best:
+        store, product_info = best
+        print(f"Best {product} in {user.home_city} is at {store.name}: {product_info}")
     else:
-        print(f"{product_name} is not available in any store.")
-
-print_product_availability(inventory, products_to_check)
+        print(f"No available {product} found in {user.home_city}")
